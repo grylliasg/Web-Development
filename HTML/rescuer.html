@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>ShareHope</title>
+<link rel="stylesheet" href="../CSS/rescuer.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="../JS/rescuer_scripts.js"></script>
+
+</head>
+<body onload="initializeRescMap(); fetchCurrentTasks(); retrieveInfo();">
+
+<div class="navbar">
+    <img src="../Resources/logo.png" class="logo">
+    <ul>
+        <li><a href="#map">Map</a></li>
+        <li><a href="#info-panel">My Tasks</a></li>
+        <li><a href="#" onclick='window.location.href = "index.html";'>Log Out</a></li>
+    </ul>
+</div>
+
+<div class="banner">   
+    <h1> ShareHope </h1>
+    <div class="introduction">
+        <img src="../Resources/user.png" class="user">
+        <div class="banner-text">
+            <p id="name">Name </p>
+            <p id="surname">Surname </p>
+        </div>
+    </div>
+</div>
+
+<div class = "location-inventory-container">
+    <button id="MyInventory" onclick="fetchMyInventory()">My Inventory</button>
+    <button id="changeLocationBtn" onclick = "makePinDraggable2()">Change Location</button>
+</div>
+
+<div class="checkbox-container">
+    <input type="checkbox" id="rescuerOffersFilter" onchange="updateLayerVisibility2()">
+    <label for="rescuerOffersFilter">Show Rescuer Offers</label>
+  
+    <input type="checkbox" id="pendingOffersFilter" onchange="updateLayerVisibility2()">
+    <label for="pendingOffersFilter">Show Pending Offers</label>
+  
+    <input type="checkbox" id="rescuerRequestsFilter" onchange="updateLayerVisibility2()">
+    <label for="rescuerRequestsFilter">Show Rescuer Requests</label>
+  
+    <input type="checkbox" id="pendingRequestsFilter" onchange="updateLayerVisibility2()">
+    <label for="pendingRequestsFilter">Show Pending Requests</label>
+
+    <input type="checkbox" id="drawnLinesFilter" onchange="toggleDrawnLines()">
+    <label for="drawnLinesFilter">Show Drawn Lines</label>
+  </div> 
+  
+
+<div class="map-container">
+        <button id="load-button" onclick="loadItems()">Load</button>
+        <div id="map"></div>
+        <button id="unload-button" onclick="unloadItems()">Unload</button>
+</div>
+
+<div id="tasks-title">
+    <h1>Tasks</h1>
+</div>
+
+<div id="info-panel">
+    <div id="tasks-container">
+        <div id="tasks-list" class="task-panels"></div>
+    </div>
+    <div id="inventory-container" style="display: none;">
+        <ul id="products"></ul>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShareHope</title>
+    <link rel="stylesheet" href="../CSS/admin.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src = "../JS/admin_scripts.js"> </script>
+    <script src="../JS/script.js"> </script>
+    <script src="../JS/rescuer_scripts.js"> </script>
+</head>
+<body onload = "initializeMap(); populateCategoriesDropdown(); viewWarehouseStatus(); retrieveInfo();">
+    
+<div class = "bg"> 
+        <div class="navbar">
+            <img src="../Resources/logo.png" class="logo">
+            <ul>
+                <li><a href="#map">Map</a></li>
+                <li><a href="#" onclick="loadItemsFromJson();">JSON LOAD</a></li>
+                <li><a href="#productFormSection">Inventory</a></li>
+                <li><a href="stats.html">Show Stats</a></li>
+                <li><a href="#" onclick="createRescuerAcc();"> Create Rescuer </a></li>
+                <li><a href="#" onclick='window.location.href = "index.html";'>Log Out</a></li>
+            </ul>
+        </div>
+
+        <div id="banner">
+            <h1> ShareHope </h1>
+            <div class = "user-info">
+                <img src="../Resources/user.png" class="user">
+                <div class="user-info-text">
+                    <p id="name">Name </p>
+                    <p id="surname">Surname</p>
+                </div>
+            </div>
+        </div>
+        
+        <button id="changeLocationBtn" onclick = "makePinDraggable();">Change Base Location</button>
+
+        <div class="undertakenFilterContainer">
+            <input type="checkbox" id="processedOffersFilter" onchange="updateLayerVisibility()">
+            <label for="processedOffersFilter">Show Processed Offers</label>
+
+            <input type="checkbox" id="pendingOffersFilter" onchange="updateLayerVisibility()">
+            <label for="pendingOffersFilter">Show Pending Offers</label>
+
+            <input type="checkbox" id="processedRequestsFilter" onchange="updateLayerVisibility()">
+            <label for="processedRequestsFilter">Show Processed Requests</label>
+
+            <input type="checkbox" id="pendingRequestsFilter" onchange="updateLayerVisibility()">
+            <label for="pendingRequestsFilter">Show Pending Requests</label>
+
+            <input type="checkbox" id="showLinesFilter" onchange="toggleLines()">
+            <label for="showLinesFilter">Show Lines</label>
+
+            <input type="checkbox" id="rescuersActiveTasksFilter" onclick="updateLayerVisibility()">
+            <label for="rescuersActiveTasksFilter">Show Rescuers with Active Tasks</label>
+
+            <input type="checkbox" id="rescuersInactiveTasksFilter" onclick="updateLayerVisibility()">
+            <label for="rescuersInactiveTasksFilter">Show Rescuers with Inactive Tasks</label>
+        </div>        
+        
+
+        <div id="map"></div>
+
+        <!-- Item Management Form Section -->
+        <div id="productFormSection">
+            
+            <h2 class="formTitle">Products Form</h2>
+
+            <form id="productForm">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="" selected disabled>Select Category</option>
+                </select><br>
+
+                <b>If you want to add a category, click <a href="#categoryFormSection" onclick="toggleAddCategoryForm()">here</a></b>
+                <br><br>
+                
+                <label for="product">Product Name:</label>
+                <input type="text" id="product" name="product" required>
+
+                <b>If you want to modify a product, click <a href="#modifyFormSection" onclick="toggleModifyForm()">here</a></b>
+                <br>
+
+                <label for="details">Details:</label>
+                <textarea id="details" name="details" rows="4" cols="50" required></textarea>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" required><br>
+
+                <button type="button" id="uploadBtn" onclick="uploadProduct()"> ADD PRODUCT </button>
+            </form>
+
+            <!-- Hidden div for adding a new category -->
+            <div id="categoryFormSection" style="display: none;">
+                <h2 class="formTitle">Add New Category</h2>
+                
+                <form id="categoryForm">
+                    <button id="hideBtn" onclick="hideCategoryForm()">HIDE FORM</button>
+                    <label for="newCategoryName">New Category Name:</label>
+                    <input type="text" id="newCategoryName" name="newCategoryName" required><br>
+
+                    <button type="button" id="uploadBtn" onclick="uploadCategory()">ADD CATEGORY </button>
+                </form>
+            </div>
+
+            <!-- Hidden for modifying a product of a category-->
+            <div id="modifyFormSection" style="display: none;">
+                <h2 class="formTitle">Modify Form</h2>
+
+                <form id="modifyForm">
+                    <button id="modifyHideBtn" onclick="hideModifyForm()"">HIDE FORM</button>
+                    
+                    <label for="selectedCategory">Category:</label>
+                    <select id="selectedCategory" name="selectedCategory" onchange="populateProductsDropdown()" required>
+                        <option value="" selected disabled>Select Category</option>
+                    </select><br>
+
+                    <label for="selectedProduct">Product Name:</label>
+                    <select id="selectedProduct" name="selectedProduct" required>
+                        <option value="" selected disabled>Select Product</option>
+                    </select><br>
+
+                    <label for="modifyDetails">Details:</label>
+                    <textarea id="modifyDetails" name="modifyDetails" rows="4" cols="50" required></textarea><br>
+
+                    <label for="modifyQuantity">Quantity:</label>
+                    <input type="number" id="modifyQuantity" name="modifyQuantity" required><br>
+
+                    <button type="button" id="uploadBtn" onclick="modifyForm()"> MODIFY </button>
+            </div>
+
+            <!-- Announcements Section -->
+            <div id="announcementsSection">
+                <h2 class="formTitle">Create Announcements</h2>
+
+                <form id="announcementForm">
+                    <label for="announcementCategory">Category:</label>
+                    <select id="announcementCategory" name="announcementCategory" onchange="populateAnnouncementProductsDropdown()" required>
+                        <option value="" selected disabled>Select Category</option></select>
+                        <!-- Populate with available item categories dynamically -->
+                    </select><br>
+                    
+                    <label for="announcementItems">Select Items:</label> 
+                    <select id="announcementItems" name="announcementItems" required>
+                        <option value="" selected disabled>Select Item</option>
+                        <!-- Populate with available item categories dynamically -->
+                    </select><br>
+                    
+                    <label for="offerQuantity">Quantity:</label>
+                    <input type="number" id="offerQuantity" name="offerQuantity" required>
+
+                    <button type="button" id="createAnnouncementBtn" onclick="createAnnouncements()">PUBLISH</button>
+                </form>
+            </div>
+
+        </div>
+        
+        <!-- Warehouse Status Section -->
+        <div id="warehouseStatusSection">
+            <h2 class="formTitle">Warehouse Status</h2>
+
+                <!-- Dropdown for selecting item categories -->
+            <div id="categorySelectContainer">
+                <label for="categorySelect" id="categoryLabel">Select Item Categories:</label>
+                <select id="categorySelect" name="categorySelect" onchange="viewWarehouseStatus()"required>
+                    <option value="" selected disabled>Select Category</option>
+                    <!-- Populate with available item categories dynamically -->
+                </select>
+            </div>
+
+            <!-- Table to display warehouse status -->
+            <table id="warehouseTable">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+                <tbody id="warehouseTableBody">
+                    <!-- Table rows will be dynamically populated -->
+                </tbody>
+            </table>
+        </div>
+</div>
+</body>
+</html>

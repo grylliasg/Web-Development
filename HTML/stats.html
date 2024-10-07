@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="../CSS/stats.css">
+    <style>
+        
+    </style>
+    </head>
+
+    <body>
+
+        <canvas id="myChart" width="500" height="400" style="display: none;""></canvas>
+        <form>
+            <label for="startDate">Enter start date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">Enter end date:</label>
+            <input type="date" id="endDate">
+        </form>
+        <button onclick="takeStats();">Submit</button>
+
+<script>
+
+    function takeStats() {
+        var startDate = document.getElementById("startDate").value;
+        var endDate = document.getElementById("endDate").value;
+
+        if (!startDate || !endDate) {
+            console.error("Start date and end date are required.");
+            return;
+        }
+
+        var xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", "../PHP/statistics.php", true);
+        xhr1.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr1.onreadystatechange = function () 
+        {
+            if (xhr1.readyState == 4 && xhr1.status == 200) {
+                var responseData = JSON.parse(xhr1.responseText);
+
+                // Extract data from the response
+                var notApprReqCount = responseData.notApprReqCount;
+                var notApprOffCount = responseData.notApprOffCount;
+                var processedReqCount = responseData.processedReqCount;
+                var processedOffCount = responseData.processedOffCount;
+
+            // Update or create Chart.js chart
+            updateChart(notApprReqCount, notApprOffCount, processedReqCount, processedOffCount);
+            }
+        };
+        xhr1.send("startDate=" + startDate + "&endDate=" + endDate);
+}
+
+    function updateChart(notApprReqCount, notApprOffCount, processedReqCount, processedOffCount) {
+        var displayChart = document.getElementById("myChart").style.display = "block";
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        // Check if the chart exists, if not create a new one
+        if (window.myChart instanceof Chart) {
+            // Update existing chart data
+            window.myChart.data.datasets[0].data = [notApprReqCount, notApprOffCount, processedReqCount, processedOffCount];
+            window.myChart.update();
+        } else {
+            // Create a new chart
+            window.myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Not Approved Requests', 'Not Approved Offers', 'Processed Requests', 'Processed Offers'],
+                    datasets: [{
+                        label: 'Statistics',
+                        data: [notApprReqCount, notApprOffCount, processedReqCount, processedOffCount],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false, // Makes the chart non-responsive
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+}
+
+        </script>
+    </body>
+</html>

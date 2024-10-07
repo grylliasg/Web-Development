@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShareHope</title>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script src = "../JS/script.js"></script>
+</head>
+<body>
+
+<div class="bg">
+    <div class="form-box">
+        <div class="button-box">
+            <div id="btn"></div>
+                <button type="button" class="toggle-btn" onclick="login()"><b>Log In</b></button>
+                <button type="button" class="toggle-btn" onclick="register()"><b>Register</b></button>
+        </div>
+
+        <form id="login" class="input-group" method="post" action="javascript:void(0);">
+            <input type="text" class="input-field" name="username" placeholder="Username" required>
+            <input type="password" class="input-field"  name="password" placeholder="Enter Password" required>
+            <button type="submit" class="submit-btn" onclick="validateLogin()"><b>Log In</b></button>
+            <p id="login_msg"></p>
+        </form>
+        
+        <form id="register" class="input-group" action = "javascript:void(0);">
+            <input type="text" class="input-field" name="fname" placeholder="First Name" required>
+            <p id="fname_error" class="error-msg"></p>
+            <input type="text" class="input-field" name="lname" placeholder="Last Name" required>
+            <p id="lname_error" class="error-msg"></p>
+            <input type="text" class="input-field" name="username"  placeholder="Username" required>
+            <p id="username_error" class="error-msg"></p>
+            <input type="password" class="input-field" name="password"  placeholder="Password" required>
+            <p id="password_error" class="error-msg"></p>  
+            <input type="password" class="input-field" name="confirm_password"  placeholder="Confirm Password" required>
+            <p id="confirm_password_error" class="error-msg"></p>
+            <input type="text" class="input-field" name="phone"  placeholder="Phone Number" required>
+            <p id="phone_error" class="error-msg"></p>
+            <button type="submit" class="submit-btn" onclick="validateRegistration()"><b>Register</b></button>
+        </form>
+    </div>
+</div>
+
+<script>
+    var x = document.getElementById("login");
+    var y = document.getElementById("register");
+    var z = document.getElementById("btn");
+
+    function register(){
+        x.style.left = "-400px";
+        y.style.left = "50px";
+        z.style.left = "110px";
+    }
+
+    function login(){
+        x.style.left = "50px";
+        y.style.left = "450px";
+        z.style.left = "0px";
+    }
+</script>
+
+</body>
+</html>
+
+

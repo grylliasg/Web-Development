@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShareHope</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/citizen.css">
+    <script src = "../JS/citizen_script.js"></script>
+    <script src = "../JS/script.js"></script>
+</head>
+</head>
+<body onload="showRequests();showOffers();disableDirectAccess();">
+<div class='bg'>
+    <p id='welcome'>Welcome</p>
+
+    <div>
+        <button id='logout-button' onclick='window.location.href = "index.html";'>Log out</button>
+    </div>
+
+    <div class="container" id="request-container">
+        <!-- Box content -->
+        <h2 id="makearequestforsupplies">Make a request for supplies</h2>
+        
+        <!-- Button to show the dropdown lists -->
+        <button class="next-button" id="next-button1" onclick="populateCategoriesAndProductsAndPersons();">Next</button>
+        
+        <!-- Dropdown lists with associated labels initially hidden -->
+        <label for="category" id="categoryLabel" style="display: none;">Select Category:</label>
+        <select id="category" name="category" style="display: none;"></select>
+    
+        <label for="product" id="productLabel" style="display: none;">Select Product:</label>
+        <select id="product" name="product" style="display: none;">
+        </select>
+    
+        <label for="persons" id="personsLabel" style="display: none;">Select Number of Persons:</label>
+        <select id="persons" name="persons" style="display: none;">
+        </select>
+
+        <p id="autocompleteform" style="display: none;">Search a product with autocomplete form <button id="herebutt" onclick="autocomplete();">here</button></p>
+    
+        <div id="autocomplete" style="display: none;">
+        <form>
+            <label for="autocomplete">Search for:</label>
+            <input type="text" id="autocomplete" name="autocomplete" list="suggestions">
+            <datalist id="suggestions">
+            </datalist>
+        </form>
+        </div>
+
+        <!-- Submit button -->
+        <button id="submitButton" onclick="submitRequest()" style="display: none;">Submit</button>
+        <button id="backk" onclick="backk()"" style="display: none;">back</button>
+    </div>
+
+    <div class="container" id="show-requests-container">
+        <!-- Box content -->
+        <h2 id="showyourrequests">Your requests:</h2>
+        <b id="requests"></b>
+    </div>
+
+    <div class="container" id="announcements-container">
+        <!-- Box content -->
+        <h2 id="show-announcements">Make an offer</h2>
+        <b id="announcements"></b>
+        <button class="next-button" id="next-button3" onclick="showAnnouncements();">Check the announcements</button>
+        <button id="submit-offer-button" onclick="submitOffer();" style="display: none;">Submit</button>
+    </div>
+
+    <div class="container" id="show-offers-container">
+        <!-- Box content -->
+        <h2 id="show-offers">Your offers:</h2>
+        <b id="offers"></b>
+        <button id="cancelButton" onclick="cancelOffer()"">Submit</button>
+    </div>
+    
+</body>
+</html>

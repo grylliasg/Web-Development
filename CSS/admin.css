@@ -1,0 +1,374 @@
+/* Additional styling for smooth scrolling */
+html 
+{
+    scroll-behavior: smooth;
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body 
+{
+    background-color: #FFF8DC;
+}
+
+h1 
+{
+    font-size: 40px;
+    font-family: "Trirong", serif;
+    font-style: oblique;
+    font-variant: small-caps;
+}
+
+b
+{
+    color:rgb(174, 121, 21); 
+}
+
+.bg{
+    height: 100vh;
+    width: 100%;
+    background-color: #FFF8DC;
+}
+
+#banner
+{
+    background-color: #FFF8DC;
+    background-size: cover;
+    width: 100%;
+    position: relative;
+}
+
+.logo
+{
+    width: 170px; 
+    position: absolute;
+    left: 1%;
+}
+
+.user
+{
+    width: 40px; 
+}
+
+/* CSS customization for the navbar (until line 78)*/
+.navbar
+{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navbar ul li
+{
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+}
+
+.navbar ul li a
+{
+    text-decoration: none;
+    color:black;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.navbar ul li::after
+{
+    content: '';
+    height: 3px;
+    width: 0;
+    background: rgb(65, 65, 33);
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar ul li:hover::after
+{
+    width: 100%;
+}
+
+#map 
+{
+    height: 500px;
+    width: 85%;
+    margin: 30px auto;
+    border: 0px solid #0b0b0b;
+    border-radius: 30px;
+    z-index: 0;
+}
+
+.user-info
+{
+    display: flex;
+    align-items: center;
+}
+
+.user-info-text
+{
+    color: black;
+    padding-left: 12px;
+}
+
+#changeLocationBtn
+{
+    border: 1px solid #760153;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+/* Style for the item management form */
+#productFormSection 
+{
+    padding: 20px;
+    background-color: #FFF8DC;
+}
+
+.formTitle 
+{
+    text-align: center;
+    font-size: 30px;
+    font-family:'Times New Roman', Times, serif;
+    font-style: oblique;
+    font-variant: small-caps;
+    text-decoration: underline;
+    margin-bottom: 20px;
+    color: rgb(174, 121, 21);
+}
+
+#productForm 
+{
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label 
+{
+    margin-bottom: 8px;
+    font-weight: bold;
+    color:rgb(174, 121, 21);
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#uploadBtn 
+{
+    background-color: rgb(174, 121, 21);
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: auto;
+    width: 180px;
+}
+
+#uploadBtn:hover 
+{
+    background-color: rgb(34, 118, 118);    
+}
+
+#hideBtn
+{
+    background-color: rgb(174, 121, 21);
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: auto;
+    margin-bottom: 20px;
+    font-size: 10px;
+    width: 90px;
+}
+
+#hideBtn:hover 
+{
+    background-color: rgb(34, 118, 118);  
+}
+
+#modifyHideBtn
+{
+    background-color: rgb(174, 121, 21);
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: auto;
+    margin-bottom: 20px;
+    font-size: 10px;
+    width: 90px;
+}
+
+#modifyHideBtn:hover 
+{
+    background-color: rgb(34, 118, 118);    
+}
+
+#categoryFormSection
+{
+    padding-top: 30px;
+}
+
+#categoryForm 
+{
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#modifyFormSection
+{
+    padding-top: 30px;
+}
+
+#modifyForm 
+{
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.undertakenFilterContainer 
+{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+  
+.undertakenFilterContainer label 
+{
+    margin-right: 100px;
+    font-weight: bold;
+}
+  
+input[type="checkbox"] 
+{
+    margin-right: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Add this style to your CSS file */
+
+#warehouseStatusSection
+{
+    background-color: #FFF8DC;
+}
+
+#categorySelect
+{
+    width: 200px;
+}
+
+#categorySelectContainer
+{
+    text-align: center;
+}
+
+#warehouseTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#warehouseTable th, #warehouseTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#warehouseTable th {
+    background-color: #f2f2f2;
+}
+
+#warehouseTable tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#warehouseTable tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+#announcementsSection 
+{
+    margin: 20px auto; /* Center the element horizontally */
+    padding-top: 30px;
+    background-color: #FFF8DC;
+    max-width: 400px;
+}
+
+#announcementForm 
+{
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#announcementCategory
+{
+    width: 200px;
+    margin-bottom: 10px;
+
+}
+
+#announcementItems
+{
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+#createAnnouncementBtn
+{
+    background-color: rgb(174, 121, 21);
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: auto;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.stats
+{
+    margin-top: 20px; /* Center the element horizontally */
+    padding-top: 30px;
+    background-color: #FFF8DC;
+    max-width: auto;
+}
+
+#startDate, #endDate
+{
+    width: 200px;
+    margin-bottom: 10px;
+}

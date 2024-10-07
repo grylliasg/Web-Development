@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Leaflet sample</title>
+      <link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+      <script src = "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+      <link rel = "stylesheet" href = "../CSS/pin.css"/>
+   </head>
+
+   <body>
+    <div style="display: inline-block; margin-bottom: 15px;">
+        <h1 style="margin-top: 0;">
+            Another one step!
+        </h1>
+        <b style="font-size: 23px;">Give your pin on the map below:</b>
+    </div>
+        
+
+      <div id = "map"></div>
+
+      <b style="font-size: 25px;">If you are ready, click <button onclick="savePin()"> Done</button></b>
+
+      <script>
+         // Creating map options
+         var mapOptions = {
+            center: [38.2466, 21.7346],
+            zoom: 15
+         }
+         
+         var basePin;
+
+         // Creating a map object
+         var map = new L.map('map', mapOptions);
+         var clickedCoordinates;
+         
+         // Creating a Layer object
+         var layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+         
+         // Adding layer to the map
+         map.addLayer(layer);
+
+         //Fetching the database to retrieve the base location
+         fetch('../PHP/fetch_basePin.php')
+            .then(response => response.json())
+            .then(data => 
+            {
+               // If the server has a base pin location, add a marker on the map
+               var baseIcon = L.icon({
+                  iconUrl: '../Resources/home.png',
+                  iconSize: [32, 32],
+                  iconAnchor: [16, 32],
+                  popupAnchor: [0, -32],
+              });
+               
+               basePin = L.marker([data.latitude, data.longitude], {icon: baseIcon}).addTo(map);
+               basePin.bindPopup("Base Location").openPopup();
+            });
+
+         map.on('click', function (e) {
+            // Save the coordinates to the variable
+            clickedCoordinates = e.latlng;
+            localStorage.setItem('clickedCoordinates', e.latlgn);
+            // Create a new marker at the clicked location
+            marker = L.marker(clickedCoordinates).addTo(map);
+
+            // Bind a popup to the marker with coordinates
+            marker.bindPopup("Marker at " + clickedCoordinates.toString()).openPopup();
+
+            //Check the distance between the base location and the new pin
+            var distance = basePin.getLatLng().distanceTo(marker.getLatLng());
+
+            if (distance > 5000) 
+            {
+               alert('The distance between the base location and the new pin is more than 5km. Please try again.');
+               location.reload();
+            }
+            
+            // Remove the ability for putting two pins
+            map.off('click');
+         });
+            
+        function savePin() {
+         // send coordinates to send_coordinates_to_db to save them in the db   
+
+         var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+               if (this.readyState == 4 && this.status == 200) {
+                  console.log(this.responseText); // Log the server response (for testing)
+         }
+      };
+         xmlhttp.open("POST", "../PHP/send_coordinates_to_db.php", true);
+         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+         xmlhttp.send("latitude=" + clickedCoordinates.lat + "&longitude=" + clickedCoordinates.lng);
+         alert('Your account has been created!\n\nPress OK to sign in');
+         window.location.href = "index.html";
+        }
+
+      </script>
+   </body>
+   
+</html>
